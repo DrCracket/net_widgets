@@ -10,6 +10,7 @@ local indicator   = {}
 local function worker(args)
   args = args or {}
   local timeout = args.timeout or 5
+  local interface = args.interface or "wlan0"
   local wireless_widget = wireless(args)
   local wireless_icon_container
   local wireless_text_container
@@ -17,7 +18,6 @@ local function worker(args)
   local wireless_icon
   local wired_widget = wired(args)
   local wired_text = wibox.widget.textbox()
-  local wired_icon
 
   if args.widget == false then
     wireless_icon_container = wireless_widget.imagebox
@@ -29,17 +29,16 @@ local function worker(args)
 
   wireless_icon = wireless_icon_container.icon
   wireless_text = wireless_text_container.text
-  wired_icon = wired_widget:get_all_children()[1].icon
   wired_text:set_markup(string.format("<span color=%q><b>%s</b></span>", beautiful.bg_normal, "--"))
 
   local function net_update()
-	awful.spawn.easy_async_with_shell("iwconfig 2>&1 | grep -q ESSID",
+	awful.spawn.easy_async_with_shell("cat /proc/net/wireless | grep -q " .. interface,
       function(_, _, _, exit_code)
         if exit_code == 0 then
           wireless_icon_container:set_widget(wireless_icon)
           wireless_text_container:set_widget(wireless_text)
         else
-          wireless_icon_container:set_widget(wired_icon)
+          wireless_icon_container:set_widget(wired_widget:get_all_children()[1].icon)
           wireless_text_container:set_widget(wired_text)
         end
       end)
