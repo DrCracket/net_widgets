@@ -23,11 +23,25 @@ local function worker(args)
     local widget 	= args.widget == nil and wibox.layout.fixed.horizontal() or args.widget == false and nil or args.widget
     local indent 	= args.indent or 3
 
-    local net_icon = wibox.widget.imagebox()
-    net_icon:set_image(ICON_DIR.."wireless_na.png")
-    local net_text = wibox.widget.textbox()
-    net_text.font = font
-    net_text:set_text(" N/A ")
+    local net_icon = wibox.widget {
+        {
+            id = "icon",
+            widget = wibox.widget.imagebox,
+            resize = false
+        },
+        layout = wibox.container.margin(nil, 0, 0, 4)
+    }
+    net_icon.icon:set_image(ICON_DIR.."wireless_na.svg")
+    local net_text = wibox.widget {
+        {
+            id = "text",
+            widget = wibox.widget.textbox,
+            resize = false
+        },
+        layout = wibox.container.background
+    }
+    net_text.text.font = font
+    net_text.text:set_markup(string.format("<span color=%q><b>%s</b></span>", beautiful.bg_normal, "--"))
     local signal_level = 0
     local function net_update()
 	awful.spawn.easy_async("awk 'NR==3 {printf \"%3.0f\" ,($3/70)*100}' /proc/net/wireless", function(stdout, stderr, reason, exit_code)
@@ -35,19 +49,21 @@ local function worker(args)
         end)
         if signal_level == nil then
             connected = false
-            net_text:set_text(" N/A ")
-            net_icon:set_image(ICON_DIR.."wireless_na.png")
+            net_text.text:set_markup(string.format("<span color=%q><b>%s</b></span>", beautiful.bg_normal, "--"))
+            net_icon.icon:set_image(ICON_DIR.."wireless_na.svg")
         else
             connected = true
-            net_text:set_text(string.format("%"..indent.."d%%", signal_level))
-            if signal_level < 25 then
-                net_icon:set_image(ICON_DIR.."wireless_0.png")
-            elseif signal_level < 50 then
-                net_icon:set_image(ICON_DIR.."wireless_1.png")
-            elseif signal_level < 75 then
-                net_icon:set_image(ICON_DIR.."wireless_2.png")
+            net_text.text:set_markup(string.format("<span color=%q><b>%"..indent.."d%%</b></span>", beautiful.bg_normal, signal_level))
+            if signal_level < 20 then
+                net_icon.icon:set_image(ICON_DIR.."wireless_0.svg")
+            elseif signal_level < 40 then
+                net_icon.icon:set_image(ICON_DIR.."wireless_1.svg")
+            elseif signal_level < 60 then
+                net_icon.icon:set_image(ICON_DIR.."wireless_2.svg")
+            elseif signal_level < 80 then
+                net_icon.icon:set_image(ICON_DIR.."wireless_3.svg")
             else
-                net_icon:set_image(ICON_DIR.."wireless_3.png")
+                net_icon.icon:set_image(ICON_DIR.."wireless_4.svg")
             end
         end
     end

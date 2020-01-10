@@ -29,13 +29,22 @@ If network is disconnected icon changes color to red. You can set multiple inter
 
 To create widget put in `rc.lua`
 ```Lua
-net_wired = net_widgets.indicator({
+net_wired = net_widgets.wired({
     interfaces  = {"enp2s0", "another_interface", "and_another_one"},
     timeout     = 5
 })
 ```
 
 By default `interfaces={"enp2s0"}`, `timeout=5`
+
+### Combined wireless and wired network indicator
+Wrapper around the wireless and wired widgets. Configuration is the same,
+put all variables in one table.
+
+Ceate the widget with
+```Lua
+wireless_widgets = net_widgets.indicator({indent = 0, widget = false})
+```
 
 ### Internet access indicator.
 <!---

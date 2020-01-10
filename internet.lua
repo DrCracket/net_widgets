@@ -14,18 +14,18 @@ local function worker(args)
   local yes_internet = wibox.widget {
     {
       widget = wibox.widget.imagebox,
-      image = ICON_DIR.."internet.png",
+      image = ICON_DIR.."internet.svg",
       resize = false,
     },
-    layout = wibox.container.margin(brightness_icon, 0, 0, 2)
+    layout = wibox.container.margin(brightness_icon, 0, 0, 4)
   }
   local no_internet = wibox.widget {
     {
       widget = wibox.widget.imagebox,
-      image = ICON_DIR.."internet_na.png",
+      image = ICON_DIR.."internet_na.svg",
       resize = false,
     },
-    layout = wibox.container.margin(brightness_icon, 0, 0, 2)
+    layout = wibox.container.margin(brightness_icon, 0, 0, 4)
   }
   -- Settings
   local timeout = args.timeout or 5
