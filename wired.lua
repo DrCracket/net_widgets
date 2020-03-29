@@ -15,7 +15,7 @@ local function worker(args)
           widget = wibox.widget.imagebox,
           resize = false
       },
-      layout = wibox.container.margin(nil, 0, 0, 4)
+      layout = wibox.container.background
   }
   local wired_na = wibox.widget {
       {
@@ -23,7 +23,7 @@ local function worker(args)
           widget = wibox.widget.imagebox,
           resize = false
       },
-      layout = wibox.container.margin(nil, 0, 0, 4)
+      layout = wibox.container.background
   }
   -- Settings
   local interfaces = args.interfaces or {"enp2s0"}

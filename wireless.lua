@@ -29,7 +29,7 @@ local function worker(args)
             widget = wibox.widget.imagebox,
             resize = false
         },
-        layout = wibox.container.margin(nil, 0, 0, 4)
+        layout = wibox.container.background
     }
     net_icon.icon:set_image(ICON_DIR.."wireless_na.svg")
     local net_text = wibox.widget {
