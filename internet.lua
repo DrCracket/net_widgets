@@ -28,7 +28,7 @@ local function worker(args)
     layout = wibox.container.background
   }
   -- Settings
-  local timeout = args.timeout or 5
+  local timeout = args.timeout or 10
   local onclick = args.onclick
   local showconnected = args.showconnected or false
 

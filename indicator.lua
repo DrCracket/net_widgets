@@ -9,7 +9,7 @@ local indicator   = {}
 
 local function worker(args)
   args = args or {}
-  local timeout = args.timeout or 5
+  local timeout = args.timeout or 10
   local interface = args.interface or "wlan0"
   local wireless_widget = wireless(args)
   local wireless_icon_container
